@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "Debug (watch)",
+            "request": "launch",
+            "runtimeArgs": [
+                "run-script",
+                "watch"
+            ],
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**",
+                "node_modules/**/*"
+            ],
+            "type": "node"
+        }
+    ]
+}

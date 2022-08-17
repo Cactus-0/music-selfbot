@@ -1,0 +1,30 @@
+{
+    "include": [ "src/**/*" ],
+    "exclude": [ "node_modules" ],
+    "compilerOptions": {
+        "rootDir": "src",
+        "outDir": "dist",
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "skipDefaultLibCheck": true,
+        "esModuleInterop": true,
+        "types": [ "node" ],
+        "module": "CommonJS",
+        "lib": [ "ESNext" ],
+        "target": "ESNext",
+        "importHelpers": true,
+        "strict": true,
+        "strictBindCallApply": true,
+        "noImplicitAny": true,
+        "incremental": true,
+        "tsBuildInfoFile": "./.tsbuildinfo",
+        "allowJs": true,
+        "checkJs": true,
+        "traceResolution": true,
+        "sourceMap": true,
+        "resolveJsonModule": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "baseUrl": "src"
+    }
+}
