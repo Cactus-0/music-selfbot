@@ -26,5 +26,24 @@ export namespace Constants {
         default: 'linux'
     });
 
+    export const BINARY_EXTENSION = platform({
+        win32: '.exe',
+        defaultValue: ''
+    });
+
+    export const YTDL_FILENAME = platform({
+        win32: 'yt-dlp.exe',
+        linux: 'yt-dlp',
+        darwin: 'yt-dlp_macos',
+        default: 'linux'
+    });
+
+    export const YTDL_URL = `https://github.com/yt-dlp/yt-dlp/releases/download/2022.08.19/${YTDL_FILENAME}`
+    export const YTDL_PATH = path.join(DATA_DIR, YTDL_FILENAME);
+
+    export const FFMPEG_PATH = path.join(DATA_DIR, 'ffmpeg' + BINARY_EXTENSION);
+
+    process.env.FFMPEG_BIN = FFMPEG_PATH;
+
     export const CONFIG_FILE_PATH = path.join(DATA_DIR, 'config.json');
 }

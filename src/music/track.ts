@@ -1,7 +1,10 @@
+import { AudioResource, createAudioResource } from '@discordjs/voice';
 import axios from 'axios';
 import internal from 'stream';
+import { create } from 'youtube-dl-exec';
+
+import { Constants } from '../constants';
 import { isURL } from 'utils/is-url';
-import youtubeDlExec from 'youtube-dl-exec';
 import { getInfoByUrl, getInfoByName } from './get-info';
 
 export interface ITrack {
@@ -11,6 +14,7 @@ export interface ITrack {
     readonly lazyFetchInfo?: boolean;
 }
 
+const ytdl = create(Constants.YTDL_PATH);
 
 export class Track implements ITrack {
     public readonly title: string | null = null;
@@ -39,7 +43,7 @@ export class Track implements ITrack {
     }
 
     public async stream(): Promise<internal.Readable> {
-        const { url: videoUrl } = await youtubeDlExec(this.url, {
+        const { url: videoUrl } = await ytdl(this.url, {
             dumpSingleJson: true,
             noWarnings: true,
             noCheckCertificate: true,
@@ -52,5 +56,10 @@ export class Track implements ITrack {
         const { data: videoStream } = await axios.get(videoUrl, { responseType: 'stream' });
 
         return videoStream;
+    }
+
+    public async toAudioResource(): Promise<[ internal.Readable, AudioResource ]> {
+        const stream = await this.stream();
+        return [ stream, createAudioResource(stream) ];
     }
 }

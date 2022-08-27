@@ -1,5 +1,5 @@
 import autobind from "autobind-decorator";
-import { Client, Message } from "discord.ts-selfbot";
+import { Client, Message } from "discord.js-selfbot-v13";
 import { log, textFormat } from ".";
 import { getLogTarget, LogTarget } from "./log-target";
 

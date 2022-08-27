@@ -4,16 +4,18 @@ import './setup';
 import { CommandReader, MusicBot } from 'bot';
 import { input, log } from 'logger';
 import { getVariable, configFile } from 'variables';
+import ensureDeps from 'deps';
 
-Object.prototype.toString = function() {
+Object.prototype.toString = function () {
     return JSON.stringify(this);
 }
 
 export async function main() {
+    await ensureDeps();
+
     const bot = new MusicBot;
 
     let token = await getVariable('token'), first = token;
-
     let startLoginTime: number;
 
     while (true) {
@@ -38,18 +40,18 @@ export async function main() {
 
     bot.client.on('error', console.error);
 
-    bot.client.on('ready', () => {
-        log(
-            `(${((Date.now() - startLoginTime) / 1000).toFixed(1)}s) `
-            + `Logged in as <cyan>${bot.client.user?.tag}</>. You can type here commands for bot. Type <green>"help"</> for help`
-        );
-    
-        new CommandReader(bot.client)
-            .on('command', input => bot.executeCommand(input))
-            .start();
-    });
+    await bot.waitForReady();
+
+    log(
+        `(${((Date.now() - startLoginTime) / 1000).toFixed(1)}s) `
+        + `Logged in as <cyan>${bot.client.user?.tag}</>. You can type here commands for bot. Type <green>"help"</> for help`
+    );
+
+    new CommandReader(bot.client)
+        .on('command', input => bot.executeCommand(input))
+        .start();
 }
 
-if (require.main === module) main();
+main();
 
 process.on('uncaughtException', console.error);

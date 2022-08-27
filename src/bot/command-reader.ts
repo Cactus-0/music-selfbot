@@ -1,5 +1,5 @@
 import autobind from "autobind-decorator";
-import Discord from "discord.ts-selfbot";
+import Discord from "discord.js-selfbot-v13";
 import { createInterface } from 'readline';
 
 import { getLogTarget, LogTarget } from "logger/log-target";
@@ -40,10 +40,10 @@ export class CommandReader extends EventEmitter<{
     private async _newLogTarget() {
         this.logTarget = await getLogTarget(this.client);
 
-        this.client.off('message', this._messageCallback);
+        this.client.off('messageCreate', this._messageCallback);
 
         if (this.logTarget !== 'console')
-            this.client.on('message', this._messageCallback);
+            this.client.on('messageCreate', this._messageCallback);
     }
 
     public start() {
@@ -55,7 +55,7 @@ export class CommandReader extends EventEmitter<{
 
     public stop() {
         VariablesEvents.off('change:logTo', this._newLogTarget);
-        this.client.off('message', this._messageCallback);
+        this.client.off('messageCreate', this._messageCallback);
         this.stdinReader.off('line', this._stdinCallback);
     }
 }

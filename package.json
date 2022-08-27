@@ -3,11 +3,11 @@
     "description": "Music selfbot for discord",
     "main": "dist/main",
     "bin": "./dist/main.js",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "scripts": {
         "prebuild": "rm .tsbuildinfo & rm -rf dist",
         "watch": "npm run prebuild && tsc-watch --onSuccess \"node -r source-map-support/register .\"",
-        "build": "bash ./scripts/build.sh",
+        "build": "tsc --project ./tsconfig.build.json && pkg .",
         "start:dev": "NODE_ENV=development node -r source-map-support/register .",
         "start:prod": "node ."
     },
@@ -18,16 +18,17 @@
         "avconv": "^3.1.0",
         "axios": "^0.27.2",
         "colors": "^1.4.0",
-        "discord.ts-selfbot": "^1.0.4-dev",
-        "ffmpeg": "^0.0.4",
-        "ffmpeg-static": "^4.4.1",
+        "discord.js-selfbot-v13": "^2.6.7",
         "isomorphic-unfetch": "^3.1.0",
+        "node-fetch": "~2.6.5",
         "require-context": "^1.1.0",
+        "sandboxed-module": "^2.0.4",
         "spotify-url-info": "^3.1.2",
         "tsconfig-paths": "^3.14.1",
+        "tweetnacl": "^1.0.3",
         "youtube-dl-exec": "^2.0.12",
         "youtube-search-without-api-key": "^1.0.7",
-        "ytdl-core": "^4.11.0"
+        "ytdl-core": "^4.11.1"
     },
     "devDependencies": {
         "@types/node": "^17.0.21",
@@ -40,7 +41,6 @@
     },
     "pkg": {
         "scripts": "dist/**/*.js",
-        "assets": "node_modules/**/*",
         "targets": [
             "node16-linux-x64"
         ],
