@@ -5,11 +5,11 @@
     "bin": "./dist/main.js",
     "version": "1.1.0",
     "scripts": {
-        "prebuild": "rm .tsbuildinfo & rm -rf dist",
+        "prebuild": "rm .tsbuildinfo & rm -rf dist & rm -rf bin",
         "watch": "npm run prebuild && tsc-watch --onSuccess \"node -r source-map-support/register .\"",
         "build": "tsc --project ./tsconfig.build.json && pkg .",
         "start:dev": "NODE_ENV=development node -r source-map-support/register .",
-        "start:prod": "node ."
+        "start:prod": "./bin/cactus-music-selfbot-linux"
     },
     "dependencies": {
         "@discordjs/opus": "^0.1.0",
@@ -42,7 +42,8 @@
     "pkg": {
         "scripts": "dist/**/*.js",
         "targets": [
-            "node16-linux-x64"
+            "node16-linux-x64",
+            "node16-win32-x64"
         ],
         "outputPath": "bin"
     }

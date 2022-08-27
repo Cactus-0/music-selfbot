@@ -83,7 +83,7 @@ export class MusicBot extends WithLogger {
                     this.player.play(audioResource);
 
                     stream
-                        .on('finish', this.end(resolve, onskip))
+                        .on('end', this.end(resolve, onskip))
                         .on('close', this.end(resolve, onskip))
                         .on('error', this.end(reject, onskip))!;
 
