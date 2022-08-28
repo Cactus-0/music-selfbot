@@ -9,22 +9,14 @@ import ytdl from 'ytdl-core';
 const { getPreview: getSpotifyDetails } = spotify(fetch);
 
 export async function getInfoByUrl(url: string): Promise<ITrack> {
-    console.log(url);
-    
     const { host } = new URL(url);
-
-    console.log('a:', host, url)
 
     // @ts-expect-error
     if (!validHosts.includes(host))
         throw new TypeError(`"${host}" is not a valid website. Only ${validHosts.join(', ')} are supported`);
 
     if (host === 'open.spotify.com') {
-        console.log('sp');
-
-        const { artist, title, type } = await getSpotifyDetails(url)
-
-        console.log(`${title} - ${artist}`);
+        const { artist, title, type } = await getSpotifyDetails(url);
 
         if (type !== 'track')
             throw new Error('Spotify URL is not a track');
@@ -42,9 +34,7 @@ export async function getInfoByUrl(url: string): Promise<ITrack> {
     return { author, title, url };
 }
 
-export async function getInfoByName(name: string): Promise<ITrack> {
-    console.log(`search:`, name)
-    
+export async function getInfoByName(name: string): Promise<ITrack> {    
     const searchResult = await search(name);
 
     if (!searchResult?.length)

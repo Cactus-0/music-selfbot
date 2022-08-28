@@ -24,14 +24,6 @@ export class Track implements ITrack {
     private _fetched: boolean = false;
 
     public static async create(urlOrName: string, lazyFetchInfo: boolean = false): Promise<Track> {
-        console.log(`is url ${urlOrName}: ${isURL(urlOrName)}`);
-
-        console.log(isURL(urlOrName)
-        ? (getInfoByUrl.name)
-        : (getInfoByName.name));
-
-        console.log(`is url ${urlOrName}: ${isURL(urlOrName)}`);
-
         let trackData: ITrack = (isURL(urlOrName)
             ? await getInfoByUrl(urlOrName)
             : await getInfoByName(urlOrName));
