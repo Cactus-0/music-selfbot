@@ -11,7 +11,10 @@ export const command: ICommand = {
         }
     ],
 
-    exec: async ({ args: urlOrName, queue, Track, log, logTarget }) => {
+    exec: async ({ args: urlOrName, queue, Track, log, logTarget, bot }) => {
+        if (!bot.connection)
+            return await log(`Bot is not in voice channel`);
+
         let query = urlOrName.join(' ');
 
         if (isURL(query) && query.includes('open.spotify.com'))

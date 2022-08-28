@@ -15,7 +15,7 @@ import autobind from 'autobind-decorator';
 export class MusicBot extends WithLogger {
     public client = new Discord.Client({ checkUpdate: false });
 
-    private connection: DiscordV.VoiceConnection | null = null;
+    public connection: DiscordV.VoiceConnection | null = null;
     private queue = new Queue;
     private player = DiscordV.createAudioPlayer();
 
@@ -54,6 +54,7 @@ export class MusicBot extends WithLogger {
             adapterCreator: channel.guild.voiceAdapterCreator,
             channelId: channel.id,
             guildId: channel.guildId,
+            selfDeaf: false,
         });
 
         return channel;

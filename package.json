@@ -3,7 +3,7 @@
     "description": "Music selfbot for discord",
     "main": "dist/main",
     "bin": "./dist/main.js",
-    "version": "1.1.2",
+    "version": "1.2.2",
     "scripts": {
         "prebuild": "rm .tsbuildinfo & rm -rf dist & rm -rf bin",
         "watch": "npm run prebuild && tsc-watch --onSuccess \"node -r source-map-support/register .\"",
@@ -23,6 +23,7 @@
         "node-fetch": "~2.6.5",
         "require-context": "^1.1.0",
         "sandboxed-module": "^2.0.4",
+        "semver": "^7.3.7",
         "spotify-url-info": "^3.1.2",
         "tsconfig-paths": "^3.14.1",
         "tweetnacl": "^1.0.3",
@@ -32,6 +33,7 @@
     },
     "devDependencies": {
         "@types/node": "^17.0.21",
+        "@types/semver": "^7.3.12",
         "rimraf": "^3.0.2",
         "source-map-support": "^0.5.21",
         "tsc-watch": "^5.0.3",

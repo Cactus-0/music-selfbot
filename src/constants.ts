@@ -46,4 +46,6 @@ export namespace Constants {
     process.env.FFMPEG_BIN = FFMPEG_PATH;
 
     export const CONFIG_FILE_PATH = path.join(DATA_DIR, 'config.json');
+
+    export const REMOTE_MANIFEST_URL = 'https://raw.githubusercontent.com/Cactus-0/music-selfbot/main/package.json';
 }
