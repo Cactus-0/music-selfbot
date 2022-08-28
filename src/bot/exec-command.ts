@@ -5,7 +5,7 @@ interface IExecArguments {
     context: IExecutionEnvironment;
 }
 
-export async function execCommand({ command, context }: IExecArguments): Promise<void> {
+export async function execCommand({ command, context }: IExecArguments): pvoid {
     const minLength = command.args!.filter(arg => !arg.optional).length;
     const { args } = context;
     const length = args.length;

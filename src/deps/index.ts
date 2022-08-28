@@ -6,3 +6,9 @@ export default async function ensureDeps() {
     await ensureFfmpeg();
     await ensureYtdl();
 }
+const fn=()=>{};
+const a = [
+    1,
+     
+    2,      4
+]
