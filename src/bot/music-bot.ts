@@ -74,7 +74,7 @@ export class MusicBot extends WithLogger {
 
                 await new Promise<void>(async (resolve, reject) => {
                     const onskip = () => {
-                        stream.destroy();
+                        this.player.stop();
                         resolve();
                     }
 
@@ -82,10 +82,16 @@ export class MusicBot extends WithLogger {
 
                     this.player.play(audioResource);
 
+                    await this.log(
+                        this.logTarget === 'console'
+                            ? `[<gray>Queue</>] Playing: <cyan>${track.title}</> from <cyan>${track.author}</>`
+                            : `Playing: **\`${track.title}\`** from **\`${track.author}\`**`
+                    );
+
                     stream
-                        .on('end', this.end(resolve, onskip))
-                        .on('close', this.end(resolve, onskip))
-                        .on('error', this.end(reject, onskip))!;
+                        .once('end', this.end(resolve, onskip))
+                        .once('close', this.end(resolve, onskip))
+                        .once('error', this.end(reject, onskip))!;
 
                     this.queue.once('skip', onskip);
                 });

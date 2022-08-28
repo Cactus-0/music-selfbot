@@ -1,4 +1,5 @@
 import type { ICommand } from 'bot/command';
+import { isURL } from 'utils/is-url';
 
 export const command: ICommand = {
     name: 'play',
@@ -11,7 +12,10 @@ export const command: ICommand = {
     ],
 
     exec: async ({ args: urlOrName, queue, Track, log, logTarget }) => {
-        const query = urlOrName.join(' ');
+        let query = urlOrName.join(' ');
+
+        if (isURL(query) && query.includes('open.spotify.com'))
+            query = query.slice(0, query.indexOf('?'))
 
         await log(
             logTarget === 'console'

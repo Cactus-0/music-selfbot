@@ -24,9 +24,17 @@ export class Track implements ITrack {
     private _fetched: boolean = false;
 
     public static async create(urlOrName: string, lazyFetchInfo: boolean = false): Promise<Track> {
-        let trackData: ITrack = isURL(urlOrName)
+        console.log(`is url ${urlOrName}: ${isURL(urlOrName)}`);
+
+        console.log(isURL(urlOrName)
+        ? (getInfoByUrl.name)
+        : (getInfoByName.name));
+
+        console.log(`is url ${urlOrName}: ${isURL(urlOrName)}`);
+
+        let trackData: ITrack = (isURL(urlOrName)
             ? await getInfoByUrl(urlOrName)
-            : await getInfoByName(urlOrName);
+            : await getInfoByName(urlOrName));
 
         const instance = new this(trackData);
         instance._fetched = !lazyFetchInfo;
@@ -44,6 +52,7 @@ export class Track implements ITrack {
 
     public async stream(): Promise<internal.Readable> {
         const { url: videoUrl } = await ytdl(this.url, {
+            retries: 3,
             dumpSingleJson: true,
             noWarnings: true,
             noCheckCertificate: true,
