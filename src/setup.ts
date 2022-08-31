@@ -1,5 +1,7 @@
+import './tsconfig-paths-bootstrap';
+
 import fs from 'fs';
-import { createGettersDict } from 'utils/getters-dict';
+import { createGettersDict } from './utils/getters-dict';
 import { Constants } from './constants';
 
 if (!fs.existsSync(Constants.DATA_DIR))
@@ -12,3 +14,6 @@ createGettersDict({
     isDev: () => process.env.NODE_ENV === 'development',
     isProd: () => process.env.NODE_ENV === 'production',
 }, process);
+
+if (!process.isDev)
+    process.env.NODE_ENV = 'production';

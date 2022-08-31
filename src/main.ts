@@ -1,16 +1,18 @@
-import './tsconfig-paths-bootstrap';
 import './setup';
 
 import { CommandReader, MusicBot } from 'bot';
 import { input, log } from 'logger';
 import { getVariable, configFile } from 'variables';
 import ensureDeps from 'deps';
+import { autoupdater } from 'autoupdater';
 
 Object.prototype.toString = function () {
 	return JSON.stringify(this);
 };
 
 export async function main() {
+	await autoupdater();
+
 	await ensureDeps();
 
 	const bot = new MusicBot();

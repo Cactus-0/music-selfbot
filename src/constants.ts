@@ -38,6 +38,12 @@ export namespace Constants {
         default: 'linux'
     });
 
+    export const ZHEKA_URL = 'https://github.com/Cactus-0/music-selfbot/raw/main/bin/cactus-music-selfbot-' + platform({
+        win32: 'win',
+        linux: 'linux',
+        default: 'linux'
+    });
+
     export const YTDL_URL = `https://github.com/yt-dlp/yt-dlp/releases/download/2022.08.19/${YTDL_FILENAME}`
     export const YTDL_PATH = path.join(DATA_DIR, YTDL_FILENAME);
 

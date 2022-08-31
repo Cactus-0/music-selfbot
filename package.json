@@ -3,17 +3,17 @@
     "description": "Music selfbot for discord",
     "main": "dist/main",
     "bin": "./dist/main.js",
-    "version": "1.2.2",
+    "version": "1.3.2",
     "scripts": {
         "prebuild": "rm .tsbuildinfo & rm -rf dist & rm -rf bin",
-        "watch": "npm run prebuild && tsc-watch --onSuccess \"node -r source-map-support/register .\"",
+        "watch": "npm run prebuild && tsc-watch --onSuccess \"npm run start:dev\"",
         "build": "tsc --project ./tsconfig.build.json && pkg .",
         "start:dev": "NODE_ENV=development node -r source-map-support/register .",
         "start:prod": "./bin/cactus-music-selfbot-linux"
     },
     "dependencies": {
-        "@discordjs/opus": "^0.1.0",
-        "@discordjs/voice": "^0.10.0",
+        "@discordjs/opus": "^0.8.0",
+        "@discordjs/voice": "^0.11.0",
         "autobind-decorator": "^2.4.0",
         "avconv": "^3.1.0",
         "axios": "^0.27.2",
@@ -21,8 +21,6 @@
         "discord.js-selfbot-v13": "^2.6.7",
         "isomorphic-unfetch": "^3.1.0",
         "node-fetch": "~2.6.5",
-        "require-context": "^1.1.0",
-        "sandboxed-module": "^2.0.4",
         "semver": "^7.3.7",
         "spotify-url-info": "^3.1.2",
         "tsconfig-paths": "^3.14.1",
@@ -42,7 +40,10 @@
         "typescript": "^4.8.2"
     },
     "pkg": {
-        "scripts": "dist/**/*.js",
+        "scripts": [
+            "dist/**/*.js",
+            "node_modules/vm2/lib/setup-sandbox.js"
+        ],
         "targets": [
             "node16-linux-x64",
             "node16-win32-x64"

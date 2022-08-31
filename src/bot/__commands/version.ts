@@ -18,14 +18,14 @@ export const command: ICommand = {
             log(`Latest version: <grey>v${installed}</>`);
 
             if (availableNewVersion)
-                log(`You can install new version from <grey>https://github.com/Cactus-0/music-selfbot</>`)
+                log(`Re-launch program to install new version`);
         } else {
             log(
                 `Installed version: \`v${current}\`\n`
                 + `Latest version: \`v${installed}\``
                 + (
                     availableNewVersion
-                        ? '\nYou can install new version from https://github.com/Cactus-0/music-selfbot'
+                        ? '\nRe-launch program to install new version'
                         : ''
                 )
             );

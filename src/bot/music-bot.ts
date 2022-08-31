@@ -50,7 +50,6 @@ export class MusicBot extends WithLogger {
             throw new Error(`${channel?.name} is not a voice channel`);
 
         this.connection = DiscordV.joinVoiceChannel({
-            // @ts-expect-error
             adapterCreator: channel.guild.voiceAdapterCreator,
             channelId: channel.id,
             guildId: channel.guildId,
