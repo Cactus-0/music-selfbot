@@ -1,9 +1,10 @@
 import fs from 'fs';
 import os from 'os';
 import axios from 'axios';
-import fetch from 'node-fetch';
 
 import { log } from 'logger';
+import { MultiBar } from 'cli-progress';
+import internal from 'stream';
 
 
 interface ICreateDownloaderOptions {
@@ -12,15 +13,42 @@ interface ICreateDownloaderOptions {
     loadTo: string;
 }
 
-export const createDownloader = ({ loadTo, name, url }: ICreateDownloaderOptions) => async () => {
+export const createDownloader = ({ loadTo, name, url }: ICreateDownloaderOptions) => async (multiBar: MultiBar) => {
     log(`<grey>Downloading ${name}...</>`);
 
     const platform = `${os.platform()}-${os.arch()}`;
 
     try {
-        const buffer = await fetch(url).then(res => res.buffer());
+        const {
+            data: stream,
+            headers: { ['content-length']: total }
+        } = await axios.get<internal.Readable>(url, { responseType: 'stream' });
 
-        fs.writeFileSync(loadTo, buffer, { mode: 0o755 });
+        const writeStream = fs.createWriteStream(loadTo, { mode: 0o755 });
+
+        const bar = multiBar.create(+total, 0, { msg: name.padEnd(10) });
+
+        await new Promise<void>((resolve, reject) => {
+            let resolved = false;
+
+            const success = () => {
+                if (resolved) return;
+                
+                resolved = true;
+
+                bar.stop();
+                resolve();
+            }
+
+            stream
+                .on('data', (data: Buffer) => bar.increment(data.byteLength))
+                .pipe(writeStream)
+                .on('finish', success)
+                .on('close', success)
+                .on('error', reject);
+        });
+
+        
     } catch (error) {
         if (!axios.isAxiosError(error))
             throw error;

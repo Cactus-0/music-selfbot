@@ -1,14 +1,20 @@
-import { ensureFfmpeg } from './ensure-ffmpeg';
-import { ensureYtdl } from './ensure-ytdl';
 import './replace-module';
 
+import { MultiBar } from 'cli-progress';
+import { ensureFfmpeg } from './ensure-ffmpeg';
+import { ensureYtdl } from './ensure-ytdl';
+import { progressBarPreset } from './progress-bar-preset';
+
+
 export default async function ensureDeps() {
-    await ensureFfmpeg();
-    await ensureYtdl();
+    const progressBar = new MultiBar({
+        hideCursor: true
+    }, progressBarPreset);
+
+    await Promise.all([
+        ensureFfmpeg(progressBar),
+        ensureYtdl(progressBar)
+    ]);
+
+    progressBar.stop()
 }
-const fn=()=>{};
-const a = [
-    1,
-     
-    2,      4
-]

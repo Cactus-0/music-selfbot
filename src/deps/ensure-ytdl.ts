@@ -1,3 +1,4 @@
+import { MultiBar } from 'cli-progress';
 import { existsSync } from 'fs';
 import { log } from 'logger';
 
@@ -10,10 +11,8 @@ const download = createDownloader({
     url: Constants.YTDL_URL,
 });
 
-export async function ensureYtdl() {
+export async function ensureYtdl(multiBar: MultiBar) {
     if (existsSync(Constants.YTDL_PATH)) return;
 
-    await download();
-
-    log(`<grey>Downloaded ytdl</>`);
+    await download(multiBar);
 }
