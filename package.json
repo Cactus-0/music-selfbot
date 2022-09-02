@@ -3,7 +3,7 @@
     "description": "Music selfbot for discord",
     "main": "dist/main",
     "bin": "./dist/main.js",
-    "version": "1.3.3",
+    "version": "1.3.4",
     "scripts": {
         "prebuild": "rm .tsbuildinfo & rm -rf dist & rm -rf bin",
         "watch": "npm run prebuild && tsc-watch --onSuccess \"npm run start:dev\"",

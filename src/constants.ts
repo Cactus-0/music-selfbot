@@ -42,7 +42,7 @@ export namespace Constants {
         win32: 'win',
         linux: 'linux',
         default: 'linux'
-    });
+    }) + BINARY_EXTENSION;
 
     export const YTDL_URL = `https://github.com/yt-dlp/yt-dlp/releases/download/2022.08.19/${YTDL_FILENAME}`
     export const YTDL_PATH = path.join(DATA_DIR, YTDL_FILENAME);
