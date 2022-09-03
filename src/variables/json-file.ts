@@ -1,3 +1,4 @@
+import { args } from 'args';
 import fs from 'fs';
 import { VariablesEvents } from './events';
 
@@ -21,6 +22,7 @@ export default class JSONFile<T extends Record<string, string | undefined>> {
     ) { }
 
     public load(): void {
+        if (args.noLoad) return;
         if (!fs.existsSync(this._path)) return;
         
         Object.assign(
@@ -30,6 +32,7 @@ export default class JSONFile<T extends Record<string, string | undefined>> {
     }
 
     public save(): void {
+        if (args.noSave) return;
         fs.writeFileSync(this._path, JSON.stringify(this.data), { encoding: 'utf-8' });
     }
 }

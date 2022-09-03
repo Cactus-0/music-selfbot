@@ -5,6 +5,7 @@ import { input, log } from 'logger';
 import { getVariable, configFile } from 'variables';
 import ensureDeps from 'deps';
 import { autoupdater } from 'autoupdater';
+import { args } from 'args';
 
 Object.prototype.toString = function () {
 	return JSON.stringify(this);
@@ -17,7 +18,7 @@ export async function main() {
 
 	const bot = new MusicBot();
 
-	let token = await getVariable('token'),
+	let token = args.token || await getVariable('token'),
 		first = token;
 	let startLoginTime: number;
 
@@ -48,9 +49,15 @@ export async function main() {
 	await bot.waitForReady();
 
 	log(
-		`(${((Date.now() - startLoginTime) / 1000).toFixed(1)}s) ` +
+		`\n(${((Date.now() - startLoginTime) / 1000).toFixed(1)}s) ` +
 			`Logged in as <cyan>${bot.client.user?.tag}</>. You can type here commands for bot. Type <green>"help"</> for help`
 	);
+
+	if (args.noSave)
+		log(`<bgYellow> ! </> Config file will be not saved`);
+
+	if (args.noLoad)
+		log(`<bgYellow> ! </> Config was not loaded`);
 
 	new CommandReader(bot.client)
 		.on('command', (input) => bot.executeCommand(input))

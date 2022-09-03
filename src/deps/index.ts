@@ -16,5 +16,5 @@ export default async function ensureDeps() {
         ensureYtdl(progressBar)
     ]);
 
-    progressBar.stop()
+    progressBar.stop();
 }

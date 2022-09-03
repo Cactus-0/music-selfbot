@@ -30,7 +30,7 @@ export const command: ICommand = {
                 log(`<yellow>${name}</> ${commandArgs[i]}`.padEnd(maxLength + 18, ' ') + ' <gray>|</> ' + commands.get(name)?.description);
             });
 
-            log('')
+            log(`\nUse <bold>${process.argv0} --help</> for help with CLI options\n`)
         } else {
             const cmd = names.map((name, i) =>
                 `**${i + 1}**. \`${name}`
