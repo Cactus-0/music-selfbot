@@ -28,7 +28,7 @@ export const command: ICommand = {
             list.forEach((track, index) => {
                 log(
                     (bottomBorder + index === queue.index ? '<gray>;sr</> ' : '')
-                    + `${queue.index + index + 1}. <cyan>${track.title}</> - <cyan>${track.author}</>`
+                    + `${queue.index + index + 1}. <cyan>${track}</>`
                 );
             });
 
@@ -39,7 +39,7 @@ export const command: ICommand = {
                 + list
                     .map((track, index) =>
                         (bottomBorder + index === queue.index ? '**>** ' : '')
-                        + `**${queue.index + index + 1}.** **\`${track.title} - ${track.author}\`**`
+                        + `**${queue.index + index + 1}.** **\`${track}\`**`
                     )
                     .join('\n')
             )

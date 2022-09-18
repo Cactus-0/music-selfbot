@@ -17,3 +17,6 @@ createGettersDict({
 
 if (!process.isDev)
     process.env.NODE_ENV = 'production';
+
+if (process.isProd)
+    process.env.YTDL_NO_UPDATE = '1';

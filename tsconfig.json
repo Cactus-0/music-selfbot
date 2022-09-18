@@ -21,7 +21,6 @@
         "tsBuildInfoFile": "./.tsbuildinfo",
         "allowJs": true,
         "checkJs": true,
-        "traceResolution": true,
         "sourceMap": true,
         "resolveJsonModule": true,
         "experimentalDecorators": true,

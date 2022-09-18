@@ -2,14 +2,13 @@ import Discord from 'discord.js-selfbot-v13';
 import * as DiscordV from '@discordjs/voice';
 
 import * as vars from 'variables';
-import { log, textFormat } from 'logger';
+import { log, textFormat, WithLogger } from 'logger';
 import { commands } from './commands';
 import { execCommand } from './exec-command';
-import { Queue } from './queue';
-import { Track } from 'music';
+import { Track, Queue } from 'music';
 import type { IExecutionEnvironment } from './command';
-import { WithLogger } from 'logger/with-logger';
 import autobind from 'autobind-decorator';
+import internal from 'stream';
 
 
 export class MusicBot extends WithLogger {
@@ -19,8 +18,8 @@ export class MusicBot extends WithLogger {
     private queue = new Queue;
     private player = DiscordV.createAudioPlayer();
 
-    private end: any = (f: () => void, _onskip: () => void) => () => {
-        f();
+    private end: any = (f: (...args: any[]) => void, _onskip: () => void) => (...args: any[]) => {
+        f(...args);
         this.queue.off('skip', _onskip);
     }
 
@@ -36,9 +35,7 @@ export class MusicBot extends WithLogger {
         await this.client.login(token);
     }
 
-    public waitForReady() {
-        return new Promise<void>(resolve => this.client.once('ready', () => resolve()))
-    }
+    public waitForReady = () => new Promise<void>(resolve => this.client.once('ready', () => resolve()));
 
     public async joinChannel(id: string) {
         const channel =
@@ -68,17 +65,27 @@ export class MusicBot extends WithLogger {
 
                 await this.log(
                     this.logTarget === 'console'
-                        ? `[<gray>Queue</>] Current song: <cyan>${track.title}</> from <cyan>${track.author}</>`
-                        : `Current song: **\`${track.title}\`** from **\`${track.author}\`**`
+                        ? `[<gray>Queue</>] Current song: <cyan>${track}</>`
+                        : `Current song: **\`${track}\`**`
                 );
 
                 await new Promise<void>(async (resolve, reject) => {
                     const onskip = () => {
+                        stream.removeAllListeners();
                         this.player.stop();
+                        stream.destroy();
                         resolve();
                     }
 
-                    const [stream, audioResource] = await track.toAudioResource();
+                    let stream: internal.Readable, audioResource: DiscordV.AudioResource;
+
+                    try {
+                        [stream, audioResource] = await track.toAudioResource();
+                    } catch (err) {
+                        reject(err);
+                        this.queue.skip();
+                        return;
+                    }
 
                     this.player.play(audioResource);
 
@@ -96,16 +103,12 @@ export class MusicBot extends WithLogger {
                     this.queue.once('skip', onskip);
                 });
 
-                this.queue.next();
+                this.queue.skip();
             } catch (error: any) {
-                console.error(error);
-                console.error(textFormat(
-                    `[<red>Error</>]:` + (
-                        error instanceof Error
-                            ? `\n\t${error?.name}: ${error?.message}`
-                            : `${error}`
-                    )
-                ));
+                if (this.logTarget === 'console')
+                    this.log(`[<red>${error?.name ?? 'Error'}</red>]: ${error?.message ?? error}`);
+                else
+                    await this.log(`[\`${error?.name ?? 'Error'}\`]: ${error?.message ?? error}`);
             }
         }
     }
@@ -131,7 +134,7 @@ export class MusicBot extends WithLogger {
         }
     }
 
-    private createCommandContext(args: string[],): IExecutionEnvironment {
+    private createCommandContext(args: string[]): IExecutionEnvironment {
         return {
             Track,
             vars,

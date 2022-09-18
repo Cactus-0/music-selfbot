@@ -3,7 +3,7 @@ import type { log } from 'logger';
 import type * as variables from 'variables';
 
 import type { MusicBot } from './music-bot';
-import type { Queue } from './queue';
+import type { Queue } from '../music/queue';
 import type { LogTarget } from 'logger/log-target';
 
 

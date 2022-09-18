@@ -3,7 +3,7 @@
     "description": "Music selfbot for discord",
     "main": "dist/main",
     "bin": "./dist/main.js",
-    "version": "1.4.4",
+    "version": "1.5.4",
     "scripts": {
         "prebuild": "rm .tsbuildinfo & rm -rf dist & rm -rf bin",
         "watch": "npm run prebuild && tsc-watch --onSuccess \"npm run start:dev\"",
@@ -22,13 +22,14 @@
         "discord.js-selfbot-v13": "^2.6.7",
         "isomorphic-unfetch": "^3.1.0",
         "semver": "^7.3.7",
-        "spotify-url-info": "^3.1.2",
-        "tsconfig-paths": "^3.14.1",
+        "spotify-url-info": "^3.1.8",
+        "tsconfig-paths": "^4.1.0",
         "tweetnacl": "^1.0.3",
         "yargs": "^17.5.1",
         "youtube-dl-exec": "^2.0.12",
         "youtube-search-without-api-key": "^1.0.7",
-        "ytdl-core": "^4.11.1"
+        "ytdl-core": "^4.11.2",
+        "ytfps": "^1.0.6"
     },
     "devDependencies": {
         "@types/cli-progress": "^3.11.0",
@@ -45,6 +46,7 @@
     "pkg": {
         "scripts": [
             "dist/**/*.js",
+            "dist/bot/__commands/*.js",
             "node_modules/vm2/lib/setup-sandbox.js"
         ],
         "targets": [
